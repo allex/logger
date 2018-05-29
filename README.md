@@ -2,6 +2,14 @@
 
 A light logger extends the builtin console module with some log enhance.
 
+## Installation
+
+```bash
+$ 
+
+npm i imlog
+```
+
 ## Usage
 
 ```js
