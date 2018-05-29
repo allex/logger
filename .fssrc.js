@@ -1,7 +1,13 @@
 // vim: set ft=javascript fdm=marker et ff=unix tw=80 sw=2:
 
 const path = require('path')
-const { name, version, author, repository: { url: repo_url }  } = require('./package.json')
+const {
+  name,
+  version,
+  author,
+  dependencies,
+  repository: { url: repo_url }
+} = require('./package.json')
 
 var banner =
   '/*!\n' +
@@ -15,6 +21,7 @@ var banner =
 module.exports = {
   rollup: {
     destDir: path.join(__dirname, './lib'),
+    dependencies,
     entry: [
       {
         input: 'src/index.js',
