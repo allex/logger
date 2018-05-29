@@ -1,7 +1,7 @@
 {
   "name": "imlog",
   "description": "A light logger extends the builtin console module with some log enhances",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "author": "Allex Wang <allex.wxn@gmail.com>",
   "main": "lib/imlog.min.js",
   "module": "lib/imlog.esm.js",
