@@ -41,10 +41,10 @@ function timestamp () {
 }
 
 const MESSAGE_PREFIXS = {
-  warn: 'WARN',
-  error: 'ERROR',
-  info: 'INFO',
-  debug: 'DEBUG'
+  warn: '!',
+  error: 'x',
+  info: 'i',
+  debug: '*'
 }
 
 const consoleTypes = {
