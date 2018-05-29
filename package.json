@@ -1,0 +1,46 @@
+{
+  "name": "imlog",
+  "description": "A light logger extends the builtin console module with some log enhances",
+  "version": "1.0.0",
+  "author": "Allex Wang <allex.wxn@gmail.com>",
+  "main": "lib/imlog.min.js",
+  "module": "lib/imlog.esm.js",
+  "repository": {
+    "type": "git",
+    "url": "http://github.com/allex/imlog.git"
+  },
+  "scripts": {
+    "build": "npm run lint:fix && rollup-bundle --config ./.fssrc.js",
+    "release": "node .build/release.js",
+    "prepare": "npm run build",
+    "lint": "standard",
+    "lint:fix": "standard --fix",
+    "test": "npm run lint && node ./test/test.js"
+  },
+  "dependencies": {
+    "sprintf-js": "^1.1.1"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "@babel/core": "latest",
+    "@babel/plugin-external-helpers": "^7.0.0-beta.47",
+    "@babel/plugin-transform-runtime": "^7.0.0-beta.47",
+    "@babel/preset-env": "^7.0.0-beta.47",
+    "@fedor/standard": "latest",
+    "rollup-worker": "next"
+  },
+  "engines": [
+    "node >= 0.8.1"
+  ],
+  "fss": {
+    "distname": "imlog",
+    "library": "IMLog",
+    "cdnPrefix": "//s2.fedor.io/-/"
+  },
+  "standard": {
+    "ignore": [
+      "*.tmp"
+    ]
+  },
+  "license": "MIT"
+}
