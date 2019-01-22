@@ -9,25 +9,14 @@ import sprintf from 'sprintf-js'
 import leftPad from './leftPad'
 import styles from './styles'
 
-// Returns true if running in interactive shell
-export const isTTY = !!(process.stderr || 0).isTTY
-
-// Returns a colorize string by specific color type
-// colorize(str, type);
-export const colorize =
-  isTTY ? (s, type) => {
-    let style = type && styles[type]
-    return style ? style[0] + s + style[1] : s
-  } : (s, type) => s
-
-function pad (s, n, c) {
+const pad = (s, n, c) => {
   n = n || 2
   c = c === undefined ? '0' : c
   return leftPad(s, n, c)
 }
 
 // 26 Feb 16:19:34
-function timestamp () {
+const ts = () => {
   const d = new Date()
   const padn = n => pad(n, 2)
   const date = [d.getFullYear(), d.getMonth() + 1, d.getDate()].map(padn).join('-')
@@ -40,71 +29,74 @@ function timestamp () {
   return [ date, time ].join(' ')
 }
 
-const MESSAGE_PREFIXS = {
-  warn: '!',
-  error: 'x',
-  info: 'i',
-  debug: '*'
+const LOG_TYPES = {
+  error: [ 0, 'red', 'x' ],
+  warn: [ 1, 'yellow', '!' ],
+  info: [ 2, 'cyan', 'i' ],
+  log: [ 3, '', '' ],
+  debug: [ 4, '', '*' ]
 }
 
-const consoleTypes = {
-  'warn': 'yellow',
-  'error': 'red',
-  'info': 'cyan',
-  'log': '',
-  'debug': ''
-}
+const getLogPrefix = type => LOG_TYPES[type][2] || ''
 
-const TYPE = {
-  error: 0,
-  warn: 1,
-  info: 2,
-  log: 3,
-  debug: 4
-}
+// Returns true if running in interactive shell
+export const isTTY = !!(process.stderr || 0).isTTY
 
-const getLogPrefix = type => MESSAGE_PREFIXS[type] || ''
+// Returns a colorize string by specific color type
+// colorize(str, type);
+export const colorize =
+  isTTY ? (s, type) => {
+    let style = type && styles[type]
+    return style ? style[0] + s + style[1] : s
+  } : (s, type) => s
 
-// write to env var to make logger level cross subshell ability
-let level = process.env.IMLOG_LEVEL || 4
+export class Logger {
+  constructor () {
+    this.level = process.env.IMLOG_LEVEL || 4
+    let logger = global.console
 
-export const setLevel = l => {
-  level = l
-  process.env.IMLOG_LEVEL = l
-}
+    // Provide logger utilities with colors
+    ;['log', 'info', 'error', 'warn', 'debug'].forEach(k => {
+      var type = LOG_TYPES[k][0]
+      this[k] = function (s, ...args) {
+        if (this.level < type) { return }
 
-let logger = global.console
+        if (s && typeof s === 'object') {
+          s = JSON.stringify(s)
+        }
 
-// Provide logger utilities with colors
-;['log', 'info', 'error', 'warn', 'debug'].forEach(k => {
-  var type = TYPE[k]
-  exports[k] = (s, ...args) => {
-    if (level < type) { return }
+        // log prefix
+        var prefix = getLogPrefix(k)
+        if (prefix) {
+          s = '[' + prefix + '] ' + s
+        }
 
-    if (s && typeof s === 'object') {
-      s = JSON.stringify(s)
-    }
+        // timestamp
+        s = '[' + ts() + '] ' + s
 
-    // log prefix
-    var prefix = getLogPrefix(k)
-    if (prefix) {
-      s = '[' + prefix + '] ' + s
-    }
+        if (isTTY) {
+          s = colorize(s, LOG_TYPES[k][1])
+        }
 
-    // timestamp
-    s = '[' + timestamp() + '] ' + s
+        return logger[k](s, ...args)
+      }.bind(this)
+    })
 
-    if (isTTY) {
-      s = colorize(s, consoleTypes[k])
-    }
-
-    return logger[k](s, ...args)
+    this.setLevel = function (level) {
+      this.level = level
+      // write to env var to make logger level cross subshell ability
+      process.env.IMLOG_LEVEL = level
+    }.bind(this)
   }
-})
+}
+
+const defaultLogger = new Logger()
+
+export const { setLevel, error, warn, info, log, debug } = defaultLogger
 
 // out print test to stderr
 export const stderr = s => {
-  process.stderr.write(colorize(s, consoleTypes.error))
+  process.stderr.write(colorize(s, LOG_TYPES.error[1]))
 }
 
 // out print text to stdout
@@ -124,5 +116,3 @@ export const puts = (...args) => {
 
 // Return a formatted string, util.format enhancements
 export { sprintf }
-
-/* vim: set et ts=2 sw=2 sts=2 ff=unix fdm=marker: */

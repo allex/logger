@@ -4,7 +4,7 @@ logger.debug('i\'m just a debug info, you can skip it.')
 logger.log('start to logging...')
 logger.log('json', { foo: 1, arr: [1, 2, 3] })
 logger.info('hi, i\'m a ammmm info.')
-logger.warn('waring, (pay) attention please.')
+logger.warn('Warning, (pay) attention please.')
 logger.error('error, sorry, some thing fails.')
 
 logger.setLevel(2) // error: 0, warn: 1, info: 2, log: 3, debug: 4
