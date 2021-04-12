@@ -1,35 +1,41 @@
-# imlog
+# @allex/logger
 
 A light logger extends the builtin console module with some log enhance.
 
 ## Installation
 
 ```bash
-$ 
-
-npm i imlog
+$ npm i @allex/logger
 ```
 
 ## Usage
 
 ```js
-const logger = require('imlog')
+import { getLogger } from '@allex/logger'
 
-logger.debug('i\'m just a debug info, you can skip it.')
-logger.log('start to logging...')
-logger.log('json', { foo: 1, arr: [1, 2, 3] })
-logger.info('hi, i\'m a ammmm info.')
-logger.warn('waring, (pay) attention please.')
-logger.error('error, sorry, some thing fails.')
+let logger = getLogger()
 
-logger.setLevel(2) // error: 0, warn: 1, info: 2, log: 3, debug: 4
-console.log('\n----------------- change logger level -----------------\n')
+logger.setLevel('debug') // error, warn, info, log, debug, silent
 
-logger.debug('i\'m just a debug info, you can skip it.')
-logger.log('start to logging...')
-logger.info('hi, i\'m a ammmm info.')
-logger.warn('waring, (pay) attention please.')
-logger.error('error, sorry, some thing fails.')
+logger.log('Start to logging... (logLevel: debug)')
+logger.debug('I\'m just a debug info, you can skip it.')
+logger.log('JSON', { foo: 1, arr: [1, 2, 3] })
+logger.info('Hi, i\'m a ammmm info.')
+logger.warn('Warning, (pay) attention please.')
+logger.error('Fatal, sorry, some thing fails.')
+
+console.log('\n----------------- create a new logger instance -----------------\n')
+
+logger = getLogger({
+  timeStamp: false,
+  logLevel: 'info'
+})
+
+logger.log('Start to logging... (logLevel: info)')
+logger.debug('I\'m just a debug info, you can skip it.')
+logger.info('Hi, i\'m a ammmm info.')
+logger.warn('Waring, (pay) attention please.')
+logger.error('Fatal, sorry, some thing fails.')
 ```
 
 ## License

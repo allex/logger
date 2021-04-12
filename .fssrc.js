@@ -1,7 +1,6 @@
 // vim: set ft=javascript fdm=marker et ff=unix tw=80 sw=2:
 
 import path from 'path'
-import babel from 'rollup-plugin-babel'
 
 const {
   name,
@@ -9,16 +8,16 @@ const {
   license,
   author,
   dependencies,
-  repository: { url: repo_url }
+  repository
 } = require('./package.json')
 
 const banner = (name, short = false) => {
-  let s;
+  let s
   if (short) {
     s = `/*! ${name} v${version} | ${license} licensed | ${author} */`
   } else {
-    s = `/*
- * ${name} v${version} - ${repo_url}
+    s = `/**
+ * ${name} v${version} - ${repository}
  *
  * @author ${author}
  * Released under the ${license} license.
@@ -28,9 +27,9 @@ const banner = (name, short = false) => {
 }
 
 const plugins = [
-  babel,
   'resolve',
-  'commonjs'
+  'typescript',
+  'babel'
 ]
 
 export default {
@@ -38,11 +37,12 @@ export default {
   dependencies,
   entry: [
     {
-      input: 'src/index.js',
+      input: 'src/index.ts',
       plugins,
       targets: [
-        { format: 'umd', name: 'IMLog', file: 'imlog.js', banner: banner(name) },
-        { format: 'cjs', file: 'imlog.esm.js', banner: banner(name) }
+        { format: 'umd', name: 'Logger', file: 'logger.min.js', banner: banner(name) },
+        { format: 'cjs', file: 'logger.cjs.js', banner: banner(name) },
+        { format: 'es', file: 'logger.es.js', banner: banner(name) }
       ]
     }
   ]
