@@ -1,7 +1,7 @@
 {
   "name": "@allex/logger",
   "description": "A light logger extends the builtin console module with some log enhances",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "author": "Allex Wang <allex.wxn@gmail.com>",
   "main": "lib/logger.cjs.js",
   "module": "lib/logger.esm.js",
