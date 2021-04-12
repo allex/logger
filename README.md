@@ -38,6 +38,30 @@ logger.warn('Waring, (pay) attention please.')
 logger.error('Fatal, sorry, some thing fails.')
 ```
 
+## APIs
+
+```
+export declare type LogLevel = 'debug' | 'log' | 'info' | 'warn' | 'error' | 'silent';
+interface IBaseLogger {
+    log(...args: any[]): void;
+    debug(...args: any[]): void;
+    info(...args: any[]): void;
+    warn(...args: any[]): void;
+    error(...args: any[]): void;
+}
+export interface ILogger extends IBaseLogger {
+    setLevel(level: LogLevel): void;
+    setProvider(ctor: () => IBaseLogger): void;
+}
+export interface LoggerOptions {
+    colour: boolean;
+    timeStamp: boolean;
+    prefix: boolean;
+    logLevel: LogLevel;
+}
+export declare const getLogger: (options: Partial<LoggerOptions>) => ILogger;
+```
+
 ## License
 
 MIT
