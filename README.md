@@ -27,7 +27,7 @@ logger.error('Fatal, sorry, some thing fails.')
 console.log('\n----------------- create a new logger instance -----------------\n')
 
 logger = getLogger({
-  timeStamp: false,
+  timeStamp: true,
   logLevel: 'info'
 })
 
@@ -40,7 +40,18 @@ logger.error('Fatal, sorry, some thing fails.')
 
 ## APIs
 
+default options:
+
+```js
+const defaultOptions: LoggerOptions = {
+  colour: true,
+  timeStamp: false,
+  prefix: true,
+  logLevel: 'info'
+}
 ```
+
+```ts
 export declare type LogLevel = 'debug' | 'log' | 'info' | 'warn' | 'error' | 'silent';
 interface IBaseLogger {
     log(...args: any[]): void;

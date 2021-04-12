@@ -125,7 +125,7 @@ const timeStamp: LogDecorator = (msg, level) => `${ts()} - ${msg}`
 
 const defaultOptions: LoggerOptions = {
   colour: true,
-  timeStamp: true,
+  timeStamp: false,
   prefix: true,
   logLevel: 'info'
 }

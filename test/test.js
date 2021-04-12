@@ -14,7 +14,7 @@ logger.error('Fatal, sorry, some thing fails.')
 console.log('\n----------------- create a new logger instance -----------------\n')
 
 logger = require('..').getLogger({
-  timeStamp: false,
+  timeStamp: true,
   logLevel: 'info'
 })
 
