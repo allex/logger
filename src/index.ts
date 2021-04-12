@@ -205,7 +205,7 @@ function Logger (options: Partial<LoggerOptions>): ILogger {
 }
 
 // singleton
-export const getLogger = (options: Partial<LoggerOptions>): ILogger => {
+export const getLogger = (options?: Partial<LoggerOptions>): ILogger => {
   options = { ...defaultOptions, ...options }
 
   // cache instance by options
